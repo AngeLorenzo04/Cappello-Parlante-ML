@@ -34,36 +34,48 @@ def main():
         visualize_lda_boundaries(X_raw, y, nomi, lda_params, nomi_case)
 
     # --- 5. CERIMONIA ---
+    house_icons = ["🦁", "🐍", "🦡"]
     while True:
         clear_screen()
-        print("="*45)
-        print("🏛️  CERIMONIA LDA: L'ANALISI STATISTICA  🏛️")
-        print("="*45)
+        print("+" + "-"*48 + "+")
+        print("|" + " ".center(48) + "|")
+        print("|" + "🏛️  CERIMONIA DI SMISTAMENTO (LDA)  🏛️".center(46) + "|")
+        print("|" + " ".center(48) + "|")
+        print("+" + "-"*48 + "+")
         
-        print("\nStudenti pronti:")
-        for i in range(len(nomi)): print(f"[{i}] {nomi[i]}", end="\t" if i%2!=0 else "\n")
+        print("\n📜 Studenti in attesa:")
+        for i in range(15): 
+            print(f"  [{i:2}] {nomi[i]:<20}", end="\t" if i%2!=0 else "\n")
         
-        scelta = input("\n\nInserisci l'ID (o 'q' per uscire): ")
+        scelta = input("\n\n✨ Inserisci l'ID dello studente (o 'q' per uscire): ")
         if scelta.lower() == 'q': break
         
         try:
             idx = int(scelta)
             studente_X = X_raw[idx:idx+1]
             
-            # Predizione singola
+            # Predizione
             pred_id = predict_lda(studente_X, lda_params)[0]
+            icon = house_icons[pred_id]
+            real_icon = house_icons[y[idx]]
             
             clear_screen()
-            print(f"\n✨ Analisi del DNA magico di: {nomi[idx]} ✨")
-            print(f"\nIl Cappello calcola i baricentri delle case...")
-            print(f"Risultato: {nomi_case[pred_id].upper()}!")
-            print(f"\n(Casa Reale: {nomi_case[y[idx]]})")
+            print("\n" + " ✨ ".center(50, "="))
+            print(f"\nIl Cappello viene posto sulla testa di: {nomi[idx].upper()}")
+            print("\n\"Mmm... vedo una mente incline alla logica...\"")
+            print("\"Il calcolo dei baricentri non mente mai...\"")
             
-            print("\n" + "-"*45)
-            input("Premere [INVIO] per continuare...")
+            print("\n" + "+" + "-"*44 + "+")
+            print(f"| {icon} RISULTATO: {nomi_case[pred_id].upper() + '!':<32} |")
+            print("+" + "-"*44 + "+")
             
-        except:
-            input("❌ Errore! Premi INVIO...")
+            print(f"\n(La Verità: {nomi_case[y[idx]]} {real_icon})")
+            
+            print("\n" + "="*50)
+            input("\nPremere [INVIO] per il prossimo studente...")
+            
+        except (ValueError, IndexError):
+            input("\n❌ ID non trovato nella lista dei maghi! Premi INVIO...")
 
 if __name__ == "__main__":
     main()

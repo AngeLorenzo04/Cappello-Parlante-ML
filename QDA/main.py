@@ -28,29 +28,45 @@ def main():
         visualize_qda_boundaries(X_raw, y, nomi, qda_params, nomi_case)
 
     # --- 5. CERIMONIA ---
+    house_icons = ["🦁", "🐍", "🦡"]
     while True:
         clear_screen()
-        print("="*45)
-        print("🪄  CERIMONIA QDA: IL CAPPELLO SI EVOLVE  🪄")
-        print("="*45)
+        print("+" + "-"*48 + "+")
+        print("|" + " ".center(48) + "|")
+        print("|" + "🪄  CERIMONIA DI SMISTAMENTO (QDA)  🪄".center(46) + "|")
+        print("|" + " ".center(48) + "|")
+        print("+" + "-"*48 + "+")
         
-        for i in range(10): print(f"[{i}] {nomi[i]}", end="\t" if i%2!=0 else "\n")
+        print("\n📜 Studenti pronti per l'evoluzione:")
+        for i in range(15): 
+            print(f"  [{i:2}] {nomi[i]:<20}", end="\t" if i%2!=0 else "\n")
+        print("  ... (molti altri)")
         
-        scelta = input("\n\nID studente (o 'q'): ")
+        scelta = input("\n\n✨ ID dello studente da analizzare (o 'q'): ")
         if scelta.lower() == 'q': break
         
         try:
             idx = int(scelta)
             pred_id = predict_qda(X_raw[idx:idx+1], qda_params)[0]
+            icon = house_icons[pred_id]
             
             clear_screen()
-            print(f"✨ Smistamento QDA per: {nomi[idx]} ✨")
-            print(f"\nIl Cappello sente la forma della tua anima...")
-            print(f"Risultato: {nomi_case[pred_id].upper()}!")
-            print(f"\n(Realtà: {nomi_case[y[idx]]})")
-            input("\n[INVIO] per continuare...")
-        except:
-            input("❌ Errore. Premi INVIO...")
+            print("\n" + " ✨ ".center(50, "="))
+            print(f"\nIl Cappello freme sulla testa di: {nomi[idx].upper()}")
+            print("\n\"Ah! Una forma complessa... una mente non lineare!\"")
+            print("\"Le parabole del tuo destino sono chiare...\"")
+            
+            print("\n" + "+" + "-"*44 + "+")
+            print(f"| {icon} RISULTATO: {nomi_case[pred_id].upper() + '!':<32} |")
+            print("+" + "-"*44 + "+")
+            
+            print(f"\n(Verità Incisa: {nomi_case[y[idx]]} {house_icons[y[idx]]})")
+            
+            print("\n" + "="*50)
+            input("\nPremere [INVIO] per il prossimo studente...")
+            
+        except (ValueError, IndexError):
+            input("\n❌ ID non presente nel Libro degli Studenti! Premi INVIO...")
 
 if __name__ == "__main__":
     main()
